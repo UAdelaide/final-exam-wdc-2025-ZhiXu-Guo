@@ -111,15 +111,20 @@ let db;
   }
 })();
 
-// Route to return books as JSON
-app.get('/', async (req, res) => {
-  try {
-    const [books] = await db.execute('SELECT * FROM books');
-    res.json(books);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch books' });
-  }
-});
+app.get('/api/dogs', async(req,res) => {
+    try{
+        const sql=`SELECT d.name AS dog_name, d.size, u.username AS owner_username 
+        From Dogs AS d
+        LEFT JOIN Users AS u ON u.user_id = d.owner_id`;
+        const [rows] = await db.query(query);
+        if(rows.length === 0){
+            return res.status(404).json({error:'not found' });
+        }
+        res.json(rows); 
+    }catch (err){
+        res.status(500).json({error: e.toString()})
+    }
+ });
 
 app.use(express.static(path.join(__dirname, 'public')));
 
