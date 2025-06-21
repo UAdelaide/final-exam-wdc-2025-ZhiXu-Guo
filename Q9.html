@@ -13,4 +13,27 @@
         }
     </style>
 </head>
+<body>
+    <div id = "app">
+        <h1>Dog of the day</h1>
+        <img :src="dogImage" alt=" ">
+        <button @click = "loadDog">click to show the dog</button>
+    </div>
+
+    <script>
+        const {createApp} = Vue;
+        createApp({
+            data(){
+                return{dogImage:'', dogName:''};
+            },
+            method: {
+                async loadDog(){
+                    const res = await fetch('https://dog.ceo/api/breeds/image/random');
+                    const date = await res.json();
+                    this.dogImage = data.message;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
 </html>
