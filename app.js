@@ -136,6 +136,21 @@ app.get('/api/dogs', async(req,res) => {
     }
 })
 
+app.get('/api/walkers/summary', async(req,res) => {
+    try{
+        const query = `SELECT w.username, sum(wr.rating) AS total_rating, avg(wr.rating) AS average_rating, 
+        count(wr.request_id) AS completed_walks FROM Users AS u
+        LEFT JOIN WalkRating AS wr ON wr.walker_id = u.user_id
+        LEFT JOIN WalkApplications AS wa ON wa.walker_id = u.user_id AND wa.status = 'accepted'
+        LEFT JOIN WalkRequests AS wq ON wq.request_id = wa.request_id AND wq.status = 'completed'
+        WHERE u.role = 'walker' GROUP BY u.user_id `;
+        const [rows] = await db.query;
+        res.json(rows);
+    } catch(err){
+        res.status(500).json({error: e.toString()})
+    }
+})
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;
