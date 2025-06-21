@@ -33,7 +33,7 @@
     createApp({
       data() {
         return {
-          username:'' password:''
+          username:'', password:''
           message: 'Welcome to the Dog Walking Service!'
         };
       },
@@ -51,7 +51,10 @@
                 password: this.password
               })
             });
-            
+            if (date.message === 'Log in successful'){
+              if(data.user.role ==="owner")
+                else (data.user.role === 'walker')
+              }
     }).mount('#app');
   </script>
 
