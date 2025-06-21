@@ -33,9 +33,25 @@
     createApp({
       data() {
         return {
+          username:'' password:''
           message: 'Welcome to the Dog Walking Service!'
         };
-      }
+      },
+      methods:{
+        async handleSubmit(){
+        if (this.username.trim() && this.password.trim()){
+          try{
+            const response = await fetch('/api/users/login',{
+              method:'POST',
+              headers:{
+                'Content-Type':'application/json',
+        },
+              body:JSON.stringify({
+                username:this.username,
+                password: this.password
+              })
+            });
+            
     }).mount('#app');
   </script>
 
